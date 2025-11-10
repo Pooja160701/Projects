@@ -1,0 +1,12 @@
+name: 'sql_etl_netflix'
+version: '1.0.0'
+config-version: 2
+
+profile: 'netflix_project'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+
+models:
+  sql_etl_netflix:
+    +materialized: view
