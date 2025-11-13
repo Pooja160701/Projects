@@ -184,7 +184,7 @@ Produces insights on total **Movies vs TV Shows** on Netflix.
 ### 👩‍💻 **Author**
 
 **Pooja**
+\
 *Data Engineer | Cloud & DevOps Enthusiast*
-📅 Created on: *November 2025*
+\
 📍 Project: *Netflix Azure Data Engineering Pipeline using Auto Loader & Delta Live Tables*
-
