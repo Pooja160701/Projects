@@ -132,6 +132,24 @@ AWS Resource Tracking Complete.
 
 ---
 
+**Project Architecture**
+
+```mermaid
+flowchart TD
+
+A["Local Machine (Git Bash / WSL)"] --> B["AWS CLI (IAM Authenticated)"]
+
+B --> C["S3 (List Buckets)"]
+B --> D["EC2 (List Instances)"]
+B --> E["Lambda (List Functions)"]
+B --> F["IAM (List Users)"]
+
+A --> G["resourceTracker Output File"]
+B --> G
+```
+
+---
+
 ### 🧾 Logs and Debugging
 
 Since `set -x` is enabled, command execution details are printed to the terminal.
