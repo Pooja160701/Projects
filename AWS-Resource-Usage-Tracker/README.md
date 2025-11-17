@@ -126,6 +126,10 @@ List of IAM Users:
 AWS Resource Tracking Complete.
 ```
 
+**Output**
+
+![alt text](image.png)
+
 ---
 
 ### 🧾 Logs and Debugging
@@ -148,7 +152,5 @@ To disable debug mode, remove or comment out that line.
 **Pooja**
 \
 DevOps & Cloud Enthusiast ☁️
-\
-📅 Created on: *08-Aug-2025*
 \
 📍 Project: *Live AWS Project using Shell Scripting for DevOps*
