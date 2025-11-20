@@ -1,107 +1,159 @@
 #!/bin/bash
 
+set -e
 set -x
 
-# Store the AWS account ID in a variable
-aws_account_id=$(aws sts get-caller-identity --query 'Account' --output text)
+############################################
+# USER CONFIGURATION
+############################################
 
-# Print the AWS account ID from the variable
-echo "AWS Account ID: $aws_account_id"
+AWS_REGION="us-east-1"
+BUCKET_NAME="pooja-free-tier-demo-2025"
+LAMBDA_NAME="s3-lambda-function"
+ROLE_NAME="s3-lambda-sns"
+EMAIL_ADDRESS="poojaajithan160701@gmail.com"
 
-# Set AWS region and bucket name
-aws_region="us-east-1"
-bucket_name="abhishek-ultimate-bucket"
-lambda_func_name="s3-lambda-function"
-role_name="s3-lambda-sns"
-email_address="zyz@gmail.com"
+############################################
+# FETCH AWS ACCOUNT ID
+############################################
 
-# Create IAM Role for the project
-role_response=$(aws iam create-role --role-name s3-lambda-sns --assume-role-policy-document '{
+ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+echo "Using AWS Account ID: $ACCOUNT_ID"
+
+############################################
+# CREATE IAM TRUST POLICY
+############################################
+
+cat <<EOF > trust-policy.json
+{
   "Version": "2012-10-17",
-  "Statement": [{
-    "Action": "sts:AssumeRole",
-    "Effect": "Allow",
-    "Principal": {
-      "Service": [
-         "lambda.amazonaws.com",
-         "s3.amazonaws.com",
-         "sns.amazonaws.com"
-      ]
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "lambda.amazonaws.com" },
+      "Action": "sts:AssumeRole"
     }
-  }]
-}')
+  ]
+}
+EOF
 
-# Extract the role ARN from the JSON response and store it in a variable
-role_arn=$(echo "$role_response" | jq -r '.Role.Arn')
+############################################
+# CREATE IAM ROLE (idempotent)
+############################################
 
-# Print the role ARN
-echo "Role ARN: $role_arn"
+if aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
+    echo "IAM Role already exists."
+else
+    aws iam create-role \
+      --role-name "$ROLE_NAME" \
+      --assume-role-policy-document file://trust-policy.json
 
-# Attach Permissions to the Role
-aws iam attach-role-policy --role-name $role_name --policy-arn arn:aws:iam::aws:policy/AWSLambda_FullAccess
-aws iam attach-role-policy --role-name $role_name --policy-arn arn:aws:iam::aws:policy/AmazonSNSFullAccess
+    aws iam attach-role-policy \
+      --role-name "$ROLE_NAME" \
+      --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
-# Create the S3 bucket and capture the output in a variable
-bucket_output=$(aws s3api create-bucket --bucket "$bucket_name" --region "$aws_region")
+    aws iam attach-role-policy \
+      --role-name "$ROLE_NAME" \
+      --policy-arn arn:aws:iam::aws:policy/AmazonSNSFullAccess
 
-# Print the output from the variable
-echo "Bucket creation output: $bucket_output"
+    echo "Waiting 10 seconds for IAM propagation..."
+    sleep 10
+fi
 
-# Upload a file to the bucket
-aws s3 cp ./example_file.txt s3://"$bucket_name"/example_file.txt
+ROLE_ARN="arn:aws:iam::$ACCOUNT_ID:role/$ROLE_NAME"
 
-# Create a Zip file to upload Lambda Function
-zip -r s3-lambda-function.zip ./s3-lambda-function
+############################################
+# CREATE S3 BUCKET (idempotent)
+############################################
 
-sleep 5
-# Create a Lambda function
-aws lambda create-function \
-  --region "$aws_region" \
-  --function-name $lambda_func_name \
-  --runtime "python3.8" \
-  --handler "s3-lambda-function/s3-lambda-function.lambda_handler" \
-  --memory-size 128 \
-  --timeout 30 \
-  --role "arn:aws:iam::$aws_account_id:role/$role_name" \
-  --zip-file "fileb://./s3-lambda-function.zip"
+if aws s3api head-bucket --bucket "$BUCKET_NAME" >/dev/null 2>&1; then
+    echo "Bucket already exists."
+else
+    # us-east-1 CANNOT have location constraint
+    aws s3api create-bucket --bucket "$BUCKET_NAME"
+fi
 
-# Add Permissions to S3 Bucket to invoke Lambda
+aws s3api put-bucket-versioning \
+  --bucket "$BUCKET_NAME" \
+  --versioning-configuration Status=Enabled
+
+############################################
+# ZIP LAMBDA CONTENT
+############################################
+
+zip -r function.zip s3-lambda-function
+
+############################################
+# CREATE OR UPDATE LAMBDA (idempotent)
+############################################
+
+if aws lambda get-function --function-name "$LAMBDA_NAME" >/dev/null 2>&1; then
+    echo "Lambda exists → updating code"
+    aws lambda update-function-code \
+      --function-name "$LAMBDA_NAME" \
+      --zip-file fileb://function.zip
+else
+    echo "Creating Lambda function..."
+    aws lambda create-function \
+      --function-name "$LAMBDA_NAME" \
+      --runtime python3.9 \
+      --role "$ROLE_ARN" \
+      --handler s3-lambda-function.lambda_function.lambda_handler \
+      --memory-size 128 \
+      --timeout 30 \
+      --zip-file fileb://function.zip
+fi
+
+############################################
+# ALLOW S3 TO INVOKE LAMBDA (ignore duplicates)
+############################################
+
 aws lambda add-permission \
-  --function-name "$lambda_func_name" \
-  --statement-id "s3-lambda-sns" \
-  --action "lambda:InvokeFunction" \
+  --function-name "$LAMBDA_NAME" \
+  --statement-id allowS3Invoke \
+  --action lambda:InvokeFunction \
   --principal s3.amazonaws.com \
-  --source-arn "arn:aws:s3:::$bucket_name"
+  --source-arn arn:aws:s3:::$BUCKET_NAME || true
 
-# Create an S3 event trigger for the Lambda function
-LambdaFunctionArn="arn:aws:lambda:us-east-1:$aws_account_id:function:s3-lambda-function"
+############################################
+# CONFIGURE S3 EVENT NOTIFICATIONS
+############################################
+
+LAMBDA_ARN="arn:aws:lambda:$AWS_REGION:$ACCOUNT_ID:function:$LAMBDA_NAME"
+
 aws s3api put-bucket-notification-configuration \
-  --region "$aws_region" \
-  --bucket "$bucket_name" \
-  --notification-configuration '{
-    "LambdaFunctionConfigurations": [{
-        "LambdaFunctionArn": "'"$LambdaFunctionArn"'",
-        "Events": ["s3:ObjectCreated:*"]
+  --bucket "$BUCKET_NAME" \
+  --notification-configuration "{
+    \"LambdaFunctionConfigurations\": [{
+      \"LambdaFunctionArn\": \"$LAMBDA_ARN\",
+      \"Events\": [\"s3:ObjectCreated:*\"]
+
     }]
-}'
+  }"
 
-# Create an SNS topic and save the topic ARN to a variable
-topic_arn=$(aws sns create-topic --name s3-lambda-sns --output json | jq -r '.TopicArn')
+############################################
+# CREATE SNS TOPIC (idempotent)
+############################################
 
-# Print the TopicArn
-echo "SNS Topic ARN: $topic_arn"
+TOPIC_ARN=$(aws sns create-topic --name s3-lambda-sns --query "TopicArn" --output text)
+echo "SNS Topic ARN: $TOPIC_ARN"
 
-# Trigger SNS Topic using Lambda Function
+############################################
+# SUBSCRIBE EMAIL (SNS IGNOres duplicates)
+############################################
 
-
-# Add SNS publish permission to the Lambda Function
 aws sns subscribe \
-  --topic-arn "$topic_arn" \
-  --protocol email \
-  --notification-endpoint "$email_address"
+    --topic-arn "$TOPIC_ARN" \
+    --protocol email \
+    --notification-endpoint "$EMAIL_ADDRESS" || true
 
-# Publish SNS
+############################################
+# SEND TEST MESSAGE
+############################################
+
 aws sns publish \
-  --topic-arn "$topic_arn" \
-  --subject "A new object created in s3 bucket" \
-  --message "Hello from Abhishek.Veeramalla YouTube channel, Learn DevOps Zero to Hero for Free"
+  --topic-arn "$TOPIC_ARN" \
+  --subject "SNS Test Message" \
+  --message "SNS Topic + Lambda setup completed!"
+
+echo "SETUP COMPLETE — Check your email to confirm SNS subscription!"
