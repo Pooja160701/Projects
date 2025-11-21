@@ -93,6 +93,17 @@ car_damage_model_ep                                             # serving endpoi
   Predicted class: major
   ```
 
+### **Automated Pipeline Orchestration (Databricks Workflow)**
+
+A Databricks Job links all three notebooks:
+
+01_ingest_training_images ─▶  
+02_train_and_register_model ─▶  
+03_deploy_to_serving
+
+
+You can schedule it (e.g., daily) for fully automated retraining & redeployment.
+
 ---
 
 
@@ -105,3 +116,5 @@ car_damage_model_ep                                             # serving endpoi
 # 🎯 Output
 
 ![alt text](mlflow.png)
+
+![alt text](image-1.png)
