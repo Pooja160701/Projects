@@ -1,0 +1,43 @@
+{
+  "Comment": "Netflix Serverless ML Pipeline: ETL -> Inference -> Success",
+  "StartAt": "RunETL",
+  "States": {
+    "RunETL": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:202533543914:function:netflix-etl-clean-fn",
+        "Payload": {
+          "Records": [
+            {
+              "s3": {
+                "bucket": { "name.$": "$.raw_bucket" },
+                "object": { "key.$": "$.raw_key" }
+              }
+            }
+          ]
+        }
+      },
+      "Next": "RunInference"
+    },
+
+    "RunInference": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:202533543914:function:netflix-ml-inference-fn",
+        "Payload": {
+          "bucket.$": "$.processed_bucket",
+          "key.$": "$.clean_key"
+        }
+      },
+      "Next": "SuccessState"
+    },
+
+    "SuccessState": {
+      "Type": "Succeed"
+    }
+  }
+}
