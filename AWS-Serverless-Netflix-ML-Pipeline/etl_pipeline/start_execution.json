@@ -1,0 +1,6 @@
+{
+  "raw_bucket": "pooja-netflix-raw-data",
+  "raw_key": "incoming/netflix_titles.csv",
+  "processed_bucket": "pooja-netflix-processed-data",
+  "clean_key": "clean/netflix_titles_clean.csv"
+}
