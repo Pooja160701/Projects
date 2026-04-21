@@ -2,11 +2,7 @@ name: Alert Automation CI
 
 on:
   push:
-    paths:
-      - 'Alert_Automation_Using_AWS_CloudWatch_+_SNS/**'
-  pull_request:
-    paths:
-      - 'Alert_Automation_Using_AWS_CloudWatch_+_SNS/**'
+    branches: ["main"]
 
 jobs:
   build:
