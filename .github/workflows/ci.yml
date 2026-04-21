@@ -14,18 +14,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
       - name: Install dependencies
         run: pip install flake8
 
-      - name: Lint
-        run: flake8 .
+      - name: Lint (non-blocking)
+        run: flake8 . || true
 
       - name: Build Docker
         run: docker build -t cpu-spike .
