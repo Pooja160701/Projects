@@ -18,6 +18,102 @@ This project demonstrates how to correct this using:
 
 ---
 
+# 🏗️ **Project Architecture (Production Upgrade)**
+
+This project has been extended from a notebook-based experiment into a **production-ready ML pipeline**:
+
+```id="arch1"
+Data → Preprocessing → SMOTE → Model Training → Evaluation → Model Saving → API Inference
+```
+
+### Components:
+
+* 📊 **Notebook** → EDA, experimentation, learning
+* ⚙️ **Training Pipeline (`run_training.py`)** → automated model training
+* 🤖 **Model Artifact (`models/model.pkl`)** → saved trained model
+* 🚀 **FastAPI (`app/main.py`)** → real-time fraud prediction API
+* 🐳 **Docker Support** → containerized deployment
+
+---
+
+# 📊 **Key Results & Insights**
+
+| Metric            | Value                       |
+| ----------------- | --------------------------- |
+| Accuracy          | ~99%                        |
+| Recall (Fraud)    | ~90%                        |
+| Precision (Fraud) | ~10–12%                     |
+| PR-AUC            | Improved from ~0.01 → ~0.75 |
+
+### 🧠 Key Insight:
+
+> Accuracy is misleading for imbalanced datasets — **Recall and PR-AUC are the true indicators of performance in fraud detection systems**
+
+---
+
+# ⚙️ **How to Run the Project**
+
+## 1️⃣ Clone Repository
+
+```bash id="clone1"
+git clone https://github.com/<your-username>/Credit-Card-Fraud-Detection.git
+cd Credit-Card-Fraud-Detection
+```
+
+---
+
+## 2️⃣ Setup Environment
+
+```bash id="env1"
+python -m venv venv
+source venv/bin/activate   # (Linux/Mac)
+venv\Scripts\activate      # (Windows)
+pip install -r requirements.txt
+```
+
+---
+
+## 3️⃣ Train Model
+
+```bash id="train1"
+python run_training.py
+```
+
+👉 This will:
+
+* Train model using SMOTE
+* Evaluate performance
+* Save model to `models/model.pkl`
+
+---
+
+## 4️⃣ Run API
+
+```bash id="api1"
+python -m uvicorn app.main:app --reload
+```
+
+---
+
+## 5️⃣ Test API
+
+```bash id="api2"
+POST /predict
+```
+
+Example input:
+
+```json id="json1"
+{
+  "V1": 0.1,
+  "V2": -1.2,
+  "V3": 0.5,
+  ...
+}
+```
+
+---
+
 # 🧩 **Code Walkthrough**
 
 ## **1. Importing Libraries**
@@ -119,7 +215,7 @@ Purpose: Better generalization with more realistic synthetic samples.
 
 The notebook highlights a **common mistake**:
 
-❌ Applying SMOTE **before** cross-validation
+❌ Applying SMOTE **before** cross-validation  
 ✔️ Correct: Apply SMOTE **during** each CV fold
 
 Purpose: Shows how incorrect application leads to unrealistic metrics and data leakage.
