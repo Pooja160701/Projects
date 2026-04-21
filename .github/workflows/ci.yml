@@ -1,0 +1,38 @@
+name: Alert Automation CI
+
+on:
+  push:
+    paths:
+      - 'Alert_Automation_Using_AWS_CloudWatch_+_SNS/**'
+  pull_request:
+    paths:
+      - 'Alert_Automation_Using_AWS_CloudWatch_+_SNS/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Alert_Automation_Using_AWS_CloudWatch_+_SNS
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Lint
+        run: flake8 .
+
+      - name: Build Docker
+        run: docker build -t cpu-spike .
+
+      - name: Run container
+        run: docker run cpu-spike
