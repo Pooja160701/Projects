@@ -4,12 +4,9 @@ on:
   push:
     paths:
       - "Docker/Multi-stage-distroless-calculator/**"
-  pull_request:
-    paths:
-      - "Docker/Multi-stage-distroless-calculator/**"
 
 jobs:
-  build-test:
+  build-test-push:
     runs-on: ubuntu-latest
 
     defaults:
@@ -36,8 +33,17 @@ jobs:
       - name: Run tests
         run: pytest tests/
 
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Build Docker image
-        run: docker build -t calculator-api:ci .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/calculator-api:latest .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/calculator-api:latest
 
       - name: Done
-        run: echo "CI pipeline completed successfully"
+        run: echo "Deployed to DockerHub"

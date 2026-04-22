@@ -62,3 +62,5 @@ docker run --rm distroless-calculator: add 3 5
 ## Output
 
 ![alt text](image.png)
+
+![alt text](image-1.png)
