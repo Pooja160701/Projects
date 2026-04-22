@@ -1,0 +1,37 @@
+name: Calculator CI/CD
+
+on:
+  push:
+    paths:
+      - "Docker/Multi-stage-distroless-calculator/**"
+  pull_request:
+    paths:
+      - "Docker/Multi-stage-distroless-calculator/**"
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Docker/Multi-stage-distroless-calculator
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run tests
+        run: pytest tests/
+
+      - name: Build Docker image
+        run: docker build -t calculator-api:ci .

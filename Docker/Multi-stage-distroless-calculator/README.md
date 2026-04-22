@@ -58,3 +58,7 @@ docker run --rm distroless-calculator: add 3 5
 * Using `golang` build stage + `scratch` final stage: **~2MB–10MB** (depending on binary and included CA certs)
 
 ---
+
+## Output
+
+![alt text](image.png)
