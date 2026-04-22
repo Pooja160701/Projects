@@ -2,8 +2,6 @@ name: Calculator CI/CD
 
 on:
   push:
-    paths:
-      - "Docker/Multi-stage-distroless-calculator/**"
 
 jobs:
   build-test-push:
@@ -12,6 +10,9 @@ jobs:
     defaults:
       run:
         working-directory: Docker/Multi-stage-distroless-calculator
+
+    env:
+      IMAGE_NAME: pooja160701/calculator-api
 
     steps:
       - name: Checkout code
@@ -40,10 +41,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/calculator-api:latest .
+        run: docker build -t $IMAGE_NAME:latest .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/calculator-api:latest
+        run: docker push $IMAGE_NAME:latest
 
       - name: Done
         run: echo "Deployed to DockerHub"
