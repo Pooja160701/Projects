@@ -30,8 +30,14 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=." >> $GITHUB_ENV
+
       - name: Run tests
         run: pytest tests/
 
       - name: Build Docker image
         run: docker build -t calculator-api:ci .
+
+      - name: Done
+        run: echo "CI pipeline completed successfully"
