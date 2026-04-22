@@ -1,174 +1,130 @@
-## 🧠 Project Name: AWS-Resource-Usage-Tracker
+# ☁️ AWS Resource Intelligence Platform
 
-### 📋 Project Overview
+## 🚀 Overview
 
-Organizations leveraging AWS often need to monitor their cloud resources daily to ensure cost efficiency and proper management.
+Modern organizations often struggle with **cloud visibility, cost optimization, and resource governance**.
 
-This project automates the process of tracking **AWS resource usage** — including **EC2 instances, S3 buckets, Lambda functions, and IAM users** — using a **Bash script** and **cron jobs**.
-
-The script collects resource information daily at a scheduled time and stores it in a report file for audit or analysis purposes.
+This project is a **cloud-native AWS resource intelligence platform** that automates the collection, storage, analysis, and visualization of AWS infrastructure data using a **serverless architecture**.
 
 ---
 
-### ⚙️ Technologies Used
+## 🎯 Key Features
 
-* **AWS CLI** — Command-line interface for interacting with AWS services
-* **Bash (Shell Scripting)** — Automation scripting
-* **jq** — Lightweight JSON processor
-* **Crontab** — Task scheduler in Linux
+* 🔄 Automated AWS resource tracking (EC2, S3, Lambda, IAM)
+* ⚡ Serverless data pipeline using AWS Lambda & EventBridge
+* 🪣 Data lake architecture using Amazon S3 (partitioned storage)
+* 🔍 Query engine powered by Amazon Athena
+* 📊 Interactive dashboard built with Streamlit
+* 🧠 Structured data modeling for analytics
+* 🔐 Secure IAM-based access (least privilege)
 
 ---
 
-### 📁 Project Structure
+## 🏗️ Architecture
+
+```
+EventBridge (Scheduler)
+        ↓
+AWS Lambda (Python + Boto3)
+        ↓
+Amazon S3 (Data Lake - Bronze Layer)
+        ↓
+AWS Athena (Query Engine)
+        ↓
+Streamlit Dashboard (Visualization)
+```
+
+---
+
+## ⚙️ Tech Stack
+
+* **Cloud**: AWS (Lambda, S3, Athena, IAM, EventBridge)
+* **Backend**: Python, Boto3
+* **Data Engineering**: JSONL, Partitioned Data Lake
+* **Visualization**: Streamlit, Plotly
+* **Query Engine**: Athena (SQL)
+
+---
+
+## 📂 Project Structure
 
 ```
 AWS-Resource-Usage-Tracker/
 │
-├── resourceTracker.sh       # Main shell script
-└── README.md                 # Project documentation
+├── src/                    # Lambda + collectors
+├── dashboard/             # Streamlit app
+├── output/                # Local outputs (optional)
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-### 🧩 Prerequisites
+## 🧠 How It Works
 
-Before running this project, ensure you have:
-
-1. **AWS CLI installed and configured**
-
-   ```bash
-   aws configure
-   ```
-
-   Enter your AWS Access Key, Secret Key, and default region.
-
-2. **jq installed**
-
-   ```bash
-   sudo apt install jq -y
-   ```
-
-   *(or use `brew install jq` on macOS)*
-
-3. **IAM permissions** for your AWS user to:
-
-   * `DescribeInstances` (EC2)
-   * `ListBuckets` (S3)
-   * `ListFunctions` (Lambda)
-   * `ListUsers` (IAM)
+1. EventBridge triggers Lambda daily
+2. Lambda collects AWS resource metadata using Boto3
+3. Data is transformed into structured JSON (JSONL format)
+4. Stored in S3 with partitioning (`date=YYYY-MM-DD`)
+5. Athena queries data directly from S3
+6. Streamlit dashboard visualizes insights
 
 ---
 
-### 🧠 How It Works
+## 📊 Example Insights
 
-1. The script runs AWS CLI commands to fetch:
-
-   * S3 bucket list
-   * EC2 instance details
-   * Lambda functions
-   * IAM user information
-2. Outputs all details into a file named **resourceTracker**
-3. Each run appends new data with timestamps for record-keeping
-4. Cron job schedules daily execution
+* Resource distribution by type
+* Running EC2 instances
+* IAM user tracking
+* Daily infrastructure trends
 
 ---
 
-### 🕒 Automate with Crontab
+## ▶️ Running Dashboard Locally
 
-To automate the report generation every day at **8 PM**, follow these steps:
-
-1. Open crontab:
-
-   ```bash
-   crontab -e
-   ```
-2. Add the following line at the end:
-
-   ```bash
-   0 20 * * * /full/path/to/AWS-Resource-Usage-Tracker/resourceTracker.sh
-   ```
-3. Save and exit.
-
-This ensures the script runs daily at **8:00 PM (20:00)**.
-
----
-
-### 📄 Example Output (`resourceTracker`)
-
-```
-########## AWS Resource Report - Mon Aug 08 20:00:01 IST 2025 ##########
-
-List of S3 Buckets:
-2025-08-08 12:00:01 my-app-data
-2025-08-08 12:00:02 project-backups
-
-List of EC2 Instances:
-{
-  "InstanceId": "i-0a123b456c789d",
-  "InstanceType": "t2.micro",
-  "State": "running",
-  "LaunchTime": "2025-08-01T10:20:45+00:00"
-}
-
-List of Lambda Functions:
-{
-  "FunctionName": "DataProcessor",
-  "Runtime": "python3.9",
-  "LastModified": "2025-08-07T14:00:00+0000"
-}
-
-List of IAM Users:
-{
-  "UserName": "pooja-admin",
-  "CreateDate": "2025-07-20T11:30:00+00:00"
-}
-
-AWS Resource Tracking Complete.
-```
-
-**Output**
-
-![alt text](image.png)
-
----
-
-**Project Architecture**
-
-```mermaid
-flowchart TD
-
-A["Local Machine (Git Bash / WSL)"] --> B["AWS CLI (IAM Authenticated)"]
-
-B --> C["S3 (List Buckets)"]
-B --> D["EC2 (List Instances)"]
-B --> E["Lambda (List Functions)"]
-B --> F["IAM (List Users)"]
-
-A --> G["resourceTracker Output File"]
-B --> G
+```bash
+pip install -r requirements.txt
+python -m streamlit run dashboard/app.py
 ```
 
 ---
 
-### 🧾 Logs and Debugging
+## 🔐 IAM Permissions
 
-Since `set -x` is enabled, command execution details are printed to the terminal.
-To disable debug mode, remove or comment out that line.
+The system follows **least privilege principles**:
 
----
-
-### 💡 Future Enhancements
-
-* Integrate with **AWS SNS or SES** to email the report automatically.
-* Store reports in an **S3 bucket** for centralized access.
-* Add **CloudWatch** metrics monitoring for additional insights.
+* ec2:DescribeInstances
+* s3:ListAllMyBuckets
+* s3:PutObject
+* lambda:ListFunctions
+* iam:ListUsers
 
 ---
 
-### 👩‍💻 Author
+## 💡 Future Enhancements
 
-**Pooja**
-\
-DevOps & Cloud Enthusiast ☁️
-\
-📍 Project: *Live AWS Project using Shell Scripting for DevOps*
+* 💰 Cost optimization using AWS Cost Explorer API
+* 📉 Unused resource detection (idle EC2, orphaned volumes)
+* 📊 Advanced dashboards (QuickSight / Grafana)
+* 🔔 Alerts via SNS / Slack
+* 🌍 Multi-account monitoring (AWS Organizations)
+
+---
+
+## Output
+
+![alt text](images/image.png)
+
+![alt text](images/image-1.png)
+
+![alt text](images/image-2.png)
+
+![alt text](images/image-3.png)
+
+![alt text](images/image-4.png)
+
+![alt text](images/image-5.png)
+
+![alt text](images/image-6.png)
+
+---
