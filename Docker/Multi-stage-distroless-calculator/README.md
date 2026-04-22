@@ -1,68 +1,168 @@
-# 🔢 **Distroless Multi‑Stage Calculator (Go)**
+# 🚀 Distroless Calculator API (Production-Ready Microservice)
+
+## 🔥 Overview
+
+A **production-grade FastAPI microservice** demonstrating backend engineering, containerization, and end-to-end DevOps practices.
+This project showcases **multi-stage Docker builds, distroless optimization, CI/CD automation, and real-world debugging of container runtime issues**.
 
 ---
 
-## Project Overview
+## 🧠 Key Highlights
 
-A tiny command‑line calculator written in Go that demonstrates modern Docker best practices: multi‑stage builds and distroless/scratch final images to produce ultra‑small, secure container images. The repo contains a minimal Go CLI, a Dockerfile using a build stage on an Ubuntu (or golang) image, and a final `scratch` stage that copies only the static binary.
-
----
-
-## What you get in this project
-
-* `main.go` — Minimal Go CLI calculator (add, sub, mul, div) with a help flag.
-* `Dockerfile` — Multi‑stage build: build in `ubuntu` (or `golang`), produce a static binary, copy to `scratch` final image.
-* `.dockerignore` — Keeps the context small when building images.
-* `README.md` — (this file) explanation + commands.
+* ⚡ Built a **FastAPI-based REST API** with modular architecture
+* 🐳 Optimized Docker images using **multi-stage builds & distroless/small base images**
+* 📉 Reduced container size by **~50% (225MB → ~100MB)**
+* 🔄 Implemented **end-to-end CI/CD pipeline using GitHub Actions**
+* 🚀 Automated **DockerHub deployment on every push**
+* 🧩 Applied **structured logging & centralized exception handling**
+* 🛠️ Debugged complex issues (Python path, distroless runtime compatibility)
 
 ---
 
-## Why multi‑stage + distroless?
+## 🏗️ Architecture
 
-* **Smaller final image**: build tools, package managers, intermediate caches are not included in the final image.
-* **Better security**: fewer packages means smaller attack surface.
-* **Faster distribution**: smaller image = faster push/pull and faster CI jobs.
-
-This project uses a build stage to compile a static Go binary and then copies the artifact into a minimal `scratch` image. The final image contains only the binary and nothing else.
-
----
-
-## File: Dockerfile
-
-> Note: In the example above `ubuntu` is used in the build stage for demonstration; for faster builds you may use `golang:1.20-bullseye` or `golang:alpine`. The `scratch` final stage gives the smallest possible image.
-
----
-
-## Build & run steps (local)
-
-### Build the image
-
-```bash
-# From project root (where Dockerfile is)
-docker build -t distroless-calculator .
-```
-
-### Run the container
-
-```bash
-# run an add operation
-docker run --rm distroless-calculator: add 3 5
-# output: 8
+```text
+Client → FastAPI → Service Layer → Response
+           ↓
+        Docker Container
+           ↓
+    GitHub Actions (CI/CD)
+           ↓
+       DockerHub
 ```
 
 ---
 
-## Quick size comparison (what to expect)
+## ⚙️ Tech Stack
 
-* Single‑stage image using Ubuntu base: **~800MB+** (includes apt cache, compilers, libs)
-* Using `golang` build stage + `scratch` final stage: **~2MB–10MB** (depending on binary and included CA certs)
+| Category         | Tools                                         |
+| ---------------- | --------------------------------------------- |
+| Backend          | FastAPI, Python                               |
+| Containerization | Docker (Multi-stage, Distroless, Alpine/Slim) |
+| CI/CD            | GitHub Actions                                |
+| Testing          | Pytest                                        |
+| Logging          | Python JSON Logger                            |
+| Deployment       | DockerHub                                     |
+
+---
+
+## 📁 Project Structure
+
+```
+Docker/Multi-stage-distroless-calculator/
+│
+├── app/
+│   ├── main.py
+│   ├── routes/
+│   ├── services/
+│   ├── models/
+│   └── utils/
+│
+├── tests/
+├── Dockerfile
+├── requirements.txt
+└── .github/workflows/
+```
+
+---
+
+## 🚀 API Usage
+
+### Endpoint
+
+```http
+POST /calculate
+```
+
+### Request
+
+```json
+{
+  "operation": "add",
+  "a": 10,
+  "b": 5
+}
+```
+
+### Response
+
+```json
+{
+  "operation": "add",
+  "a": 10,
+  "b": 5,
+  "result": 15
+}
+```
+
+---
+
+## 🐳 Run with Docker
+
+```bash
+docker pull pooja160701/calculator-api:latest
+docker run -p 8000:8000 pooja160701/calculator-api:latest
+```
+
+👉 Open: http://localhost:8000/docs
+
+---
+
+## 🔄 CI/CD Pipeline
+
+Automated pipeline using **GitHub Actions**:
+
+* ✅ Install dependencies
+* ✅ Run unit tests (Pytest)
+* ✅ Build Docker image
+* ✅ Push to DockerHub
+
+---
+
+## 📊 Image Optimization
+
+| Version   | Size   |
+| --------- | ------ |
+| Initial   | ~225MB |
+| Optimized | ~106MB |
+
+---
+
+## 🔐 Security & Best Practices
+
+* Distroless / minimal base images
+* No unnecessary dependencies
+* Environment isolation
+* Secrets managed via GitHub Actions
+* Non-root container execution
+
+---
+
+## 🧪 Testing
+
+```bash
+pytest tests/
+```
+
+---
+
+## 🚀 Future Enhancements
+
+* Kubernetes deployment (Minikube / EKS)
+* Prometheus + Grafana monitoring
+* Rate limiting & authentication
+* Load testing
 
 ---
 
 ## Output
 
-![alt text](image.png)
+![alt text](images/image.png)
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
+
+![alt text](images/image-3.png)
+
+---
