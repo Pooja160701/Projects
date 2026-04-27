@@ -1,0 +1,101 @@
+customer_id,first_name,last_name,email,country
+1,Amy,Nelson,amy.nelson85@gmail.com,Algeria
+2,Kristen,Hill,kristen.hill26@gmail.com,Nepal
+3,Abigail,Martin,abigail.martin35@hotmail.com,Liberia
+4,Tiffany,Murray,tiffany.murray46@gmail.com,El Salvador
+5,Sarah,Williams,sarah.williams40@yahoo.com,Italy
+6,Julie,Drake,julie.drake65@gmail.com,Somalia
+7,Neil,Adams,neil.adams21@hotmail.com,Tunisia
+8,Sandra,Powers,sandra.powers79@hotmail.com,Sudan
+9,Stacey,Archer,stacey.archer11@gmail.com,Dominica
+10,Jack,White,jack.white86@hotmail.com,Mayotte
+11,Brian,Short,brian.short24@gmail.com,Venezuela
+12,Kenneth,Cook,kenneth.cook62@yahoo.com,Sudan
+13,Jessica,Rojas,jessica.rojas8@gmail.com,French Southern Territories
+14,Stephen,Phillips,stephen.phillips19@yahoo.com,Saudi Arabia
+15,Justin,Sanders,justin.sanders57@gmail.com,Korea
+16,Lisa,Clark,lisa.clark10@gmail.com,Belarus
+17,Jennifer,Little,jennifer.little22@gmail.com,United States Minor Outlying Islands
+18,Autumn,Tate,autumn.tate52@yahoo.com,Burundi
+19,Cindy,Parker,cindy.parker3@yahoo.com,Heard Island and McDonald Islands
+20,Tammy,Stevens,tammy.stevens6@gmail.com,Ukraine
+21,Matthew,Gardner,matthew.gardner75@gmail.com,Djibouti
+22,Lydia,Lane,lydia.lane36@gmail.com,Thailand
+23,Kenneth,Smith,kenneth.smith51@gmail.com,Australia
+24,Steven,Stevenson,steven.stevenson7@hotmail.com,Hungary
+25,Abigail,Hall,abigail.hall3@gmail.com,Morocco
+26,Miguel,Diaz,miguel.diaz28@hotmail.com,Cameroon
+27,Alexandra,Johnson,alexandra.johnson85@yahoo.com,Comoros
+28,Robin,Martinez,robin.martinez8@gmail.com,Singapore
+29,Michael,Terrell,michael.terrell71@yahoo.com,Tajikistan
+30,Tammy,Sellers,tammy.sellers14@hotmail.com,Falkland Islands (Malvinas)
+31,Annette,Sims,annette.sims76@hotmail.com,Latvia
+32,Mark,Mahoney,mark.mahoney33@hotmail.com,Tajikistan
+33,Katherine,Parker,katherine.parker80@gmail.com,Georgia
+34,Madeline,Chen,madeline.chen8@yahoo.com,Vanuatu
+35,Amber,Clark,amber.clark76@yahoo.com,Liberia
+36,Travis,Davis,travis.davis74@yahoo.com,United States of America
+37,Aaron,Garcia,aaron.garcia87@gmail.com,Syrian Arab Republic
+38,Tamara,Kramer,tamara.kramer30@yahoo.com,Zimbabwe
+39,Cynthia,Miller,cynthia.miller88@hotmail.com,Bhutan
+40,Maurice,Rodriguez,maurice.rodriguez21@gmail.com,Turks and Caicos Islands
+41,Richard,Beasley,richard.beasley57@hotmail.com,Malaysia
+42,Benjamin,Skinner,benjamin.skinner47@yahoo.com,Vanuatu
+43,Brian,Davila,brian.davila91@yahoo.com,San Marino
+44,Michael,Braun,michael.braun70@gmail.com,Azerbaijan
+45,Laura,Graves,laura.graves96@hotmail.com,Martinique
+46,Joshua,Mullen,joshua.mullen36@yahoo.com,Western Sahara
+47,Theodore,Cruz,theodore.cruz21@gmail.com,Venezuela
+48,Robert,Tyler,robert.tyler64@gmail.com,Faroe Islands
+49,Judy,Alexander,judy.alexander76@hotmail.com,Myanmar
+50,Cynthia,Shaw,cynthia.shaw60@yahoo.com,Comoros
+51,Danielle,Odom,danielle.odom59@yahoo.com,Tonga
+52,Megan,Dougherty,megan.dougherty49@gmail.com,Venezuela
+53,Stephen,Roman,stephen.roman35@yahoo.com,Macao
+54,Luke,Mcfarland,luke.mcfarland21@hotmail.com,Antigua and Barbuda
+55,Jason,Ford,jason.ford71@hotmail.com,French Guiana
+56,Sarah,Johnson,sarah.johnson54@yahoo.com,Finland
+57,Connie,Mills,connie.mills81@gmail.com,Syrian Arab Republic
+58,Ashlee,Gay,ashlee.gay75@yahoo.com,Honduras
+59,Andrew,Sanders,andrew.sanders49@gmail.com,Norway
+60,Kelly,Gonzalez,kelly.gonzalez31@gmail.com,Equatorial Guinea
+61,James,Glass,james.glass98@yahoo.com,Cameroon
+62,Amber,Russell,amber.russell9@gmail.com,Uzbekistan
+63,Nicholas,Coleman,nicholas.coleman27@gmail.com,Serbia
+64,Mark,Anderson,mark.anderson8@yahoo.com,French Guiana
+65,Danielle,Rodriguez,danielle.rodriguez98@gmail.com,Bangladesh
+66,Denise,Navarro,denise.navarro11@yahoo.com,Liechtenstein
+67,Melissa,Thomas,melissa.thomas77@hotmail.com,Kenya
+68,Richard,Rodriguez,richard.rodriguez57@gmail.com,Cook Islands
+69,Zachary,Gonzales,zachary.gonzales95@hotmail.com,Ukraine
+70,Kayla,Miller,kayla.miller12@gmail.com,Iceland
+71,Shawn,Burch,shawn.burch32@gmail.com,Cocos (Keeling) Islands
+72,David,Gomez,david.gomez59@hotmail.com,Andorra
+73,Cole,Adams,cole.adams84@gmail.com,Turkey
+74,Jose,Espinoza,jose.espinoza25@gmail.com,Chile
+75,Marcus,Miller,marcus.miller18@yahoo.com,Gabon
+76,Richard,Smith,richard.smith24@gmail.com,United States Virgin Islands
+77,Kellie,Williams,kellie.williams75@hotmail.com,Armenia
+78,Mark,Crane,mark.crane80@hotmail.com,Portugal
+79,Penny,Osborn,penny.osborn77@hotmail.com,Fiji
+80,Nathan,Horton,nathan.horton6@gmail.com,Burundi
+81,Antonio,Arnold,antonio.arnold13@gmail.com,Christmas Island
+82,Christopher,Martinez,christopher.martinez10@gmail.com,Egypt
+83,Mackenzie,Scott,mackenzie.scott78@yahoo.com,Syrian Arab Republic
+84,Teresa,Clark,teresa.clark21@hotmail.com,Australia
+85,Donna,Combs,donna.combs9@yahoo.com,Gibraltar
+86,Hannah,Garcia,hannah.garcia52@yahoo.com,Greece
+87,Linda,Smith,linda.smith45@hotmail.com,Ethiopia
+88,Rebecca,Howe,rebecca.howe27@yahoo.com,Moldova
+89,Teresa,Drake,teresa.drake27@hotmail.com,Saint Barthelemy
+90,Brooke,Sparks,brooke.sparks24@yahoo.com,Fiji
+91,Natasha,Brown,natasha.brown98@hotmail.com,Poland
+92,Kaitlin,Lane,kaitlin.lane61@hotmail.com,Iceland
+93,John,Brown,john.brown44@gmail.com,Hong Kong
+94,Michael,Aguirre,michael.aguirre69@hotmail.com,Albania
+95,Leah,Henderson,leah.henderson17@yahoo.com,Ecuador
+96,Cameron,Webb,cameron.webb44@gmail.com,Kuwait
+97,Cassie,Snyder,cassie.snyder55@hotmail.com,Myanmar
+98,John,Berry,john.berry56@gmail.com,British Indian Ocean Territory (Chagos Archipelago)
+99,Jackson,Johnson,jackson.johnson95@gmail.com,American Samoa
+100,Anna,Mullins,anna.mullins15@yahoo.com,Austria
