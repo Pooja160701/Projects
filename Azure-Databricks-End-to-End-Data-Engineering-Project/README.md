@@ -1,272 +1,183 @@
-# 🚀 **Azure Databricks End-to-End Data Engineering Project**
+# 🚀 Azure Databricks End-to-End Data Engineering Project
 
-### **Bronze → Silver → Gold Pipeline with Auto Loader, DLT, SCD Type-1 & Fact/Dim Modelling**
+## 📌 Overview
 
----
+This project demonstrates a **production-style end-to-end data engineering pipeline** built using **Azure Databricks** and **Delta Lake**, following the **Medallion Architecture (Bronze → Silver → Gold)**.
 
-## 📌 **Project Overview**
-
-This project demonstrates a complete **modern Lakehouse ETL architecture** using **Azure Databricks, ADLS Gen2, Delta Lake, Auto Loader, and Delta Live Tables (DLT)**.
-It covers **dynamic ingestion**, **multi-layer Medallion architecture**, **surrogate key generation**, **SCD Type-1**, **Fact/Dim modelling**, **SQL & Python UDFs**, **window functions**, and **DLT expectations** for data quality.
-
-This is a real-world project suitable for **production-scale retail/e-commerce ETL pipelines**.
+The pipeline ingests raw data, transforms it into clean datasets, and models it into **analytics-ready tables** for business intelligence and reporting.
 
 ---
 
-## 🧩 **Architecture Summary**
+## 🧱 Architecture
 
-```
-                ┌──────────────────────────┐
-                │   ADLS Gen2 – Source     │
-                │ (orders, customers, ...) │
-                └──────────────┬───────────┘
-                               ▼
-                 🔁 **Auto Loader (Streaming)**
-                               ▼
-                ┌──────────────────────────┐
-                │      Bronze Layer        │
-                │ (Raw → Parquet Streams)  │
-                └──────────────┬───────────┘
-                               ▼
-                 🔧 **Silver Transformations**
-                 - Cleaning / Dedup
-                 - Parsing fields
-                 - Window functions
-                 - OOP class transformations
-                               ▼
-                ┌──────────────────────────┐
-                │       Silver Layer       │
-                └──────────────┬───────────┘
-                               ▼
-                ⭐ **Gold Layer (DLT + SCD)**
-                 - DimCustomers (SCD1)
-                 - DimProducts (SCD2 via DLT)
-                 - FactOrders (Upsert)
-                               ▼
-                📊 **Gold Presentation Tables**
+```text
+Raw Data (CSV)
+     ↓
+Bronze Layer (Ingestion)
+     ↓
+Silver Layer (Cleaning & Transformation)
+     ↓
+Gold Layer (Business Modeling - Star Schema)
+     ↓
+Analytics / BI / Reporting
 ```
 
 ---
 
-## 🏗️ **Technologies Used**
+## ⚙️ Tech Stack
 
-* **Azure Databricks**
-* **Auto Loader (cloudFiles)**
-* **Data Lake Storage Gen2 (ABFSS)**
-* **Delta Lake (ACID tables)**
-* **Delta Live Tables (DLT)**
-* **PySpark (Structured Streaming + SQL API)**
-* **Window Functions**
-* **UDFs (SQL + Python-based UDF + Table-valued Functions)**
-* **SCD Type-1 / Type-2**
-* **Databricks Job Utilities (dbutils.jobs.taskValues)**
+* Azure Databricks (Serverless)
+* PySpark
+* Delta Lake
+* Unity Catalog
+* Databricks Jobs (Workflow Orchestration)
+* SQL
 
 ---
 
-## 📁 **Repository Structure**
+## 🔄 Data Pipeline
 
+### 🥉 Bronze Layer
+
+* Ingest raw CSV data into Delta tables
+* No transformation (raw storage)
+* Acts as **source of truth**
+
+---
+
+### 🥈 Silver Layer
+
+* Data cleaning & standardization
+* Column transformations
+* Derived fields:
+
+  * `full_name`
+  * `email_domain`
+  * `order_value`
+* Joins across datasets
+* Data quality checks
+
+---
+
+### 🥇 Gold Layer (Business Layer)
+
+#### ⭐ Data Modeling (Star Schema)
+
+**Dimension Tables**
+
+* `dim_customers` → SCD Type 1
+* `dim_products` → SCD Type 2
+
+**Fact Table**
+
+* `fact_orders`
+
+---
+
+### ⚡ Advanced Features
+
+* Incremental processing (Watermark logic)
+* Delta MERGE (Upserts)
+* Schema Evolution (`mergeSchema`)
+* Partitioning (`order_year`)
+* Z-Ordering (performance optimization)
+* Aggregated tables for reporting
+* Data quality validations
+
+---
+
+## 🔁 Pipeline Orchestration
+
+* Built using **Databricks Jobs DAG**
+* Automated workflow:
+
+```text
+Bronze → Silver → Gold → Aggregations
 ```
-Databricks_Retail_ETL_Project/
+
+* Scheduled execution
+* Dependency management
+
+---
+
+## 📂 Project Structure
+
+```text
+Azure-Databricks-End-to-End-Data-Engineering-Project/
+
+├── notebooks/
+│   ├── Databricks.ipynb
 │
-├── Bronze_Layer.dbc
-├── Silver_Customers.dbc
-├── Silver_Orders.dbc
-├── Silver_Products.dbc
-├── Silver_Regions.dbc
-├── Gold_Products_DLT.dbc
-├── Gold_Customers_SCD1.dbc
-├── Gold_Orders_Fact.dbc
-├── parameters.dbc
-└── README.md
+├── data/
+│   ├── customers.csv
+│   ├── orders.csv
+│   ├── products.csv
+│
+├── images/
+│
+├── .gitignore
+│
+├── data_generator.py
+│
+├── README.md
 ```
 
 ---
 
-# 🥉 **Bronze Layer – Auto Loader Dynamic Ingestion**
+## 📸 Screenshots
 
-### ✔ Dynamic file ingestion using widget parameter
+![alt text](images/image.png)
 
-```python
-dbutils.widgets.text("file_name","")
-p_file_name = dbutils.widgets.get("file_name")
-```
+![alt text](images/image-1.png)
 
-### ✔ Auto Loader streaming ingestion
+![alt text](images/image-2.png)
 
-```python
-df = spark.readStream.format("cloudFiles")\
-    .option("cloudFiles.format","parquet")\
-    .option("cloudFiles.schemaLocation", f".../checkpoint_{p_file_name}")\
-    .load(f".../source/{p_file_name}")
-```
+![alt text](images/image-3.png)
 
-### ✔ Writing to Bronze Layer
+![alt text](images/image-4.png)
 
-```python
-df.writeStream.format("parquet")\
-    .option("path", f".../bronze/{p_file_name}")\
-    .trigger(once=True)\
-    .start()
-```
+![alt text](images/image-5.png)
+
+![alt text](images/image-6.png)
+
+![alt text](images/image-7.png)
 
 ---
 
-# 🥈 **Silver Layer – Transformations**
+## 🚀 How to Run
 
-## Silver Customers
-
-* Extract domain from email
-* Create full name
-* Remove rescued data
-* Write Delta table
-
-```python
-df = df.withColumn("domains", split(col('email'),'@')[1])
-df = df.withColumn("full_name", concat(col('first_name'),lit(' '),col('last_name')))
-```
+1. Upload CSV files to Databricks Volume / Storage
+2. Run Bronze ingestion notebook
+3. Run Silver transformation notebook
+4. Run Gold layer notebooks (dim → fact → agg)
+5. Execute full pipeline using Databricks Jobs
 
 ---
 
-## Silver Orders
+## 🔐 Security Note
 
-Includes:
+Sensitive credentials are **not stored in code**.
+Use:
 
-* Clean data
-* Timestamp conversion
-* Year extraction
-* Window functions
-* **OOP-based window transformations**
-
-### OOP Class Example
-
-```python
-class windows:
-    def dense_rank(self,df):
-        return df.withColumn("flag",dense_rank().over(Window.partitionBy("year").orderBy(desc("total_amount"))))
-```
+* Databricks Secret Scopes
+* Environment-based configuration
 
 ---
 
-## Silver Products
+## 🎯 Key Outcomes
 
-* SQL UDF
-* Python UDF
-* Table-valued UDF
-
-### SQL Function
-
-```sql
-CREATE OR REPLACE FUNCTION discount_func(p_price DOUBLE)
-RETURN p_price * 0.90
-```
-
-### Python Function
-
-```sql
-CREATE OR REPLACE FUNCTION upper_func(p_brand STRING)
-LANGUAGE PYTHON AS $$ return p_brand.upper() $$
-```
+* Built a **scalable data pipeline using Spark**
+* Implemented **real-world data modeling (Star Schema)**
+* Enabled **analytics-ready datasets**
+* Applied **industry best practices in data engineering**
 
 ---
 
-# 🥇 **Gold Layer – Fact & Dimensions**
+## 💡 Future Improvements
 
-## ⭐ **DimCustomers – SCD Type-1**
-
-Steps:
-
-1. Read Silver customers
-2. Dedup using `dropDuplicates()`
-3. Split old vs new records
-4. Surrogate key generation
-5. Merge using Delta Lake Upsert
-
-### Surrogate Key Logic
-
-```python
-df_new = df_new.withColumn("DimCustomerKey", monotonically_increasing_id() + 1)
-```
-
-### Upsert into Delta Table
-
-```python
-dlt_obj.alias("trg").merge(df_final.alias("src"),
-    "trg.DimCustomerKey = src.DimCustomerKey")\
-    .whenMatchedUpdateAll()\
-    .whenNotMatchedInsertAll()\
-    .execute()
-```
+* Power BI dashboard integration
+* CI/CD pipeline (GitHub Actions)
+* Infrastructure as Code (Terraform)
+* Streaming pipeline (Kafka / Event Hub)
 
 ---
-
-## ⭐ **DimProducts – SCD Type-2 with DLT**
-
-### DLT Table with Expectations
-
-```python
-@dlt.expect_all_or_drop({"rule1": "product_id IS NOT NULL"})
-```
-
-### SCD2 Logic
-
-```python
-dlt.apply_changes(
-  target = "DimProducts",
-  source = "DimProducts_view",
-  keys = ["product_id"],
-  sequence_by = "product_id",
-  stored_as_scd_type = 2
-)
-```
-
----
-
-## ⭐ **FactOrders – Fact Table Upsert**
-
-* Joins Silver orders with DimCustomers & DimProducts
-* Creates fact record
-* Uses Delta merge for Upsert
-
-```python
-dlt_obj.alias("trg").merge(df_fact_new.alias("src"),
-   "trg.order_id = src.order_id AND trg.DimCustomerKey = src.DimCustomerKey")
-```
-
----
-
-# 🧪 Parameters Notebook
-
-Passes dataset list dynamically using:
-
-```python
-dbutils.jobs.taskValues.set("output_datasets", datasets)
-```
-
----
-
-## 🎯 **Key Outcomes**
-
-* Fully scalable **production-grade** ETL pipeline
-* Implements **Lakehouse best practices**
-* Automates ingestion → cleaning → modelling
-* Uses **SCD Type-1, SCD Type-2, and Fact table upserts**
-* Ensures **data quality with DLT expectations**
-
-
-## Outputs
-
-![alt text](image.png)
-
-![alt text](image-1.png)
-
-![alt text](image-2.png)
-
-![alt text](image-3.png)
-
-![alt text](image-4.png)
-
-![alt text](image-5.png)
-
-![alt text](image-6.png)
-
-![alt text](image-7.png)
