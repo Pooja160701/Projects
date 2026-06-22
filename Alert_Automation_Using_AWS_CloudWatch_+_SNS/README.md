@@ -12,19 +12,7 @@ It detects high CPU utilization on EC2 instances and automatically triggers aler
 
 **Flow:**
 
-```
-EC2 (CPU Spike Simulation)
-        ↓
-CloudWatch Metric (CPUUtilization)
-        ↓
-CloudWatch Alarm
-        ↓
-SNS Topic (Email Notification)
-        ↓
-Lambda Function (Auto-Recovery)
-        ↓
-EC2 Reboot (Self-Healing)
-```
+![alt text](arch.png)
 
 ---
 

@@ -5,14 +5,14 @@
 This project is a **complete, production-ready Azure Data Engineering Platform** built using the Spotify dataset.
 It implements a **Medallion Architecture (Bronze → Silver → Gold)** and includes:
 
-✔ **Incremental ingestion** (CDC-based)
-✔ **Backfill capability**
-✔ **Structured Streaming with Auto Loader**
-✔ **SCD Type-2 using Delta Live Tables (DLT)**
-✔ **Metadata-driven pipeline design**
-✔ **Dynamic SQL generation with Jinja**
-✔ **Star Schema modeling**
-✔ **Unity Catalog governance**
+✔ **Incremental ingestion** (CDC-based)  
+✔ **Backfill capability**  
+✔ **Structured Streaming with Auto Loader**  
+✔ **SCD Type-2 using Delta Live Tables (DLT)**  
+✔ **Metadata-driven pipeline design**  
+✔ **Dynamic SQL generation with Jinja**  
+✔ **Star Schema modeling**   
+✔ **Unity Catalog governance**   
 ✔ **CI/CD deployment with Databricks Asset Bundles**
 
 This project replicates how modern enterprise data teams build **real-time, reliable, scalable pipelines**.
@@ -21,48 +21,7 @@ This project replicates how modern enterprise data teams build **real-time, reli
 
 # 🏗️ **Architecture Diagram**
 
-```
-                    ┌─────────────────────────────────────┐
-                    │        Azure SQL Database            │
-                    │ (DimUser, DimTrack, DimDate, etc.)  │
-                    └───────────────────┬──────────────────┘
-                                        │
-                                        ▼
-                        ┌────────────────────────────────┐
-                        │  Azure Data Factory (ADF)      │
-                        │  • Incremental Ingestion       │
-                        │  • Backfilling (from_date)     │
-                        │  • Metadata-driven Pipelines   │
-                        │  • Looping over tables         │
-                        └──────────────┬─────────────────┘
-                                       ▼
-              ┌────────────────────────────────────────────────────┐
-              │     Azure Data Lake Gen2 (Bronze / Silver / Gold)  │
-              │ Containers: bronze, silver, gold, cdc              │
-              └───────────────────────┬────────────────────────────┘
-                                      ▼
-                 ┌────────────────────────────────────────────┐
-                 │     Azure Databricks (Structured Streaming) │
-                 │   Bronze → Silver transformations           │
-                 │   Auto Loader + Schema Evolution            │
-                 │   OOP-based reusable transformations        │
-                 └───────────────────┬─────────────────────────┘
-                                     ▼
-                   ┌───────────────────────────────────────────┐
-                   │ Delta Live Tables (Gold Layer)            │
-                   │ • SCD Type-2 Dimensions (Auto CDC)        │
-                   │ • Fact Tables                              │
-                   │ • Data Quality Expectations                │
-                   └────────────────────┬───────────────────────┘
-                                        ▼
-                         ┌───────────────────────────────────┐
-                         │ Serverless SQL Warehouse (BI/ETL) │
-                         └───────────────────────────────────┘
-                                        ▼
-                       ┌──────────────────────────────────────────┐
-                       │   CI/CD with Databricks Asset Bundles    │
-                       └──────────────────────────────────────────┘
-```
+![alt text](arch.png)
 
 ---
 
@@ -101,12 +60,12 @@ This project replicates how modern enterprise data teams build **real-time, reli
 
 ## ✅ Features Implemented
 
-✔ **Incremental Load** (CDC-based using updated_at)
-✔ **Initial Load + Incremental in one pipeline**
-✔ **Backfill logic (from_date parameter)**
-✔ **Watermarking using JSON file**
-✔ **Avoiding empty file creation**
-✔ **Dynamic file naming**
+✔ **Incremental Load** (CDC-based using updated_at)  
+✔ **Initial Load + Incremental in one pipeline**   
+✔ **Backfill logic (from_date parameter)**   
+✔ **Watermarking using JSON file**   
+✔ **Avoiding empty file creation**   
+✔ **Dynamic file naming**  
 ✔ **Metadata-driven design (loop over all tables)**
 
 ### ✔ CDC JSON Structure
@@ -135,11 +94,11 @@ This project replicates how modern enterprise data teams build **real-time, reli
 
 ### **Key Concepts**
 
-✔ Bronze → Silver using **cloudFiles Auto Loader**
-✔ **Schema Evolution** (add new columns)
-✔ **Rescued Data column handling**
-✔ **Reusable transformation utilities**
-✔ **Deduplication**
+✔ Bronze → Silver using **cloudFiles Auto Loader**   
+✔ **Schema Evolution** (add new columns)   
+✔ **Rescued Data column handling**   
+✔ **Reusable transformation utilities**      
+✔ **Deduplication**    
 ✔ **Delta Tables** creation using `toTable()`
 
 ---
@@ -345,26 +304,11 @@ Spotify-Data-Engineering-Project/
 
 By the end of the project:
 
-✔ All Bronze → Silver → Gold tables created
-✔ Auto Loader streaming ingestion running
-✔ Delta Live Tables running with SCD Type-2
-✔ Metadata-driven joins working with Jinja
-✔ CI/CD ready for dev → prod deployment
+✔ All Bronze → Silver → Gold tables created    
+✔ Auto Loader streaming ingestion running    
+✔ Delta Live Tables running with SCD Type-2      
+✔ Metadata-driven joins working with Jinja   
+✔ CI/CD ready for dev → prod deployment    
 ✔ Full Medallion Lakehouse architecture completed
 
 ---
-
-# 🎉 **Completed Successfully**
-
-This project showcases **enterprise-level Azure + Databricks engineering**, covering:
-
-✔ Data ingestion
-✔ Data transformation
-✔ Streaming pipelines
-✔ Lakehouse architecture
-✔ Orchestration
-✔ Governance
-✔ Automation
-✔ Deployment
-
-A complete real-world system — end to end.

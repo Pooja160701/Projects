@@ -22,17 +22,7 @@ This project is a **cloud-native AWS resource intelligence platform** that autom
 
 ## 🏗️ Architecture
 
-```
-EventBridge (Scheduler)
-        ↓
-AWS Lambda (Python + Boto3)
-        ↓
-Amazon S3 (Data Lake - Bronze Layer)
-        ↓
-AWS Athena (Query Engine)
-        ↓
-Streamlit Dashboard (Visualization)
-```
+![alt text](images/arch.png)
 
 ---
 

@@ -25,10 +25,10 @@ The model predicts whether a person is diabetic based on basic health attributes
 
 ## 📌 **Project Features**
 
-✔ Train a Random Forest model
-✔ REST API for prediction
-✔ Dockerized application
-✔ Kubernetes deployment (Deployment + Service)
+✔ Train a Random Forest model  
+✔ REST API for prediction  
+✔ Dockerized application   
+✔ Kubernetes deployment (Deployment + Service)   
 ✔ Fully reproducible workflow
 
 ---
@@ -71,16 +71,7 @@ Diabetes-Prediction-MLops/
 
 **Project Overview**
 
-```mermaid
-flowchart LR
-A[Training Data] --> B[Model Training]
-B --> C[Model File: diabetes_model.pkl]
-C --> D[FastAPI App]
-D --> E[Docker Image: diabetes-app]
-E --> F[Kubernetes Deployment]
-F --> G[Kubernetes Service]
-G --> H[Client / Browser]
-```
+![alt text](arch.png)
 
 ---
 

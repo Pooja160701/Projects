@@ -21,24 +21,7 @@ This repository is a **complete demonstration** of how to design, build, contain
 
 **Three-tier layout:**
 
-```
-                 [ Client / Browser ]
-                          |
-                          ▼
-                   [ Frontend Tier ]
-                 AngularJS + NGINX
-                          |
-------------------------------------------------
-                          |
-                   [ Backend APIs ]
-   cart | catalogue | payment | user | ratings |
-     shipping | dispatch | gateway | load-gen
-                          |
-------------------------------------------------
-                          |
-                    [ Data Layer ]
-    MongoDB | MySQL | Redis | RabbitMQ (MQ broker)
-```
+![alt text](arch.png)
 
 ---
 
@@ -156,3 +139,5 @@ docker-compose -f docker-compose.yaml -f docker-compose-load.yaml up
 # **Output**
 
 ![Image](image.png)
+
+---

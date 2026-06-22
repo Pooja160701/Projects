@@ -39,9 +39,8 @@ aws-ci-cd-python-app/
 
 # 📸 Architecture Diagram (Conceptual)
 
-![alt text](ima.png)
+![alt text](arch.png)
 
----
 
 # 🛠 AWS Services Used
 
@@ -269,4 +268,5 @@ Projects + S3 bucket artifacts.
 /myapp/docker-registry/url
 ```
 ![Image](image.png)
+
 ---

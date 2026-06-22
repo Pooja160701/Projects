@@ -37,8 +37,9 @@ All without any servers — purely serverless + free-tier friendly.
 
 # 🖼 **Architecture Diagram**
 
-![Input Image](image.png)
+![alt text](arch.png)
 
+---
 
 # 🚀 **Features**
 

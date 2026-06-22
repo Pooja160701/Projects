@@ -161,11 +161,3 @@ To prevent accidental exposure:
 * Add **filters for permission types (admin, write, read)**
 
 ---
-
-### 👩‍💻 **Author**
-
-**Pooja**
-\
-DevOps & Cloud Enthusiast ☁️
-\
-📍 Project: *GitHub API Integration using Shell Script*

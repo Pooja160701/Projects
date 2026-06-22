@@ -109,7 +109,7 @@ You can schedule it (e.g., daily) for fully automated retraining & redeployment.
 
 # 🏗️ **Architecture Diagram**
 
-![alt text](image.png)
+![alt text](arch.png)
 
 ---
 

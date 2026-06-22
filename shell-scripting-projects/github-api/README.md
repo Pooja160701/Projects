@@ -163,9 +163,3 @@ The script will handle:
 * Auto-add / remove collaborators
 
 ---
-
-# 👩‍💻 Author
-
-**Pooja**
-\
-Shell Scripting • DevOps • GitHub API • AWS • Cloud Engineering

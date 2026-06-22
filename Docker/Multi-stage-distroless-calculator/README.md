@@ -21,15 +21,7 @@ This project showcases **multi-stage Docker builds, distroless optimization, CI/
 
 ## 🏗️ Architecture
 
-```text
-Client → FastAPI → Service Layer → Response
-           ↓
-        Docker Container
-           ↓
-    GitHub Actions (CI/CD)
-           ↓
-       DockerHub
-```
+![alt text](images/arch.png)
 
 ---
 

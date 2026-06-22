@@ -29,14 +29,13 @@ Whenever a file is uploaded to an S3 bucket, a Lambda function is triggered and 
 
 # 📌 Architecture Diagram
 
-![alt text](image.png)
+![alt text](arch.png)
 
 ---
 
 # 📁 Project Structure
 
 ```
-
 aws-event-triggering/
 │
 ├── s3-lambda-function/
@@ -46,8 +45,7 @@ aws-event-triggering/
 ├── s3-notification-triggers.sh   <-- main automation script
 ├── example_file.txt
 └── function.zip  (created automatically)
-
-````
+```
 
 ---
 
@@ -70,7 +68,7 @@ Run it with:
 ```bash
 chmod +x s3-notification-triggers.sh
 ./s3-notification-triggers.sh
-````
+```
 
 ---
 
@@ -148,9 +146,3 @@ This allows logging + SNS publishing.
 To avoid extra billing, delete resources manually or use a delete script.
 
 ---
-
-# 👨‍💻 Author
-
-Project implemented & automated by **Pooja**
-\
-Built using real AWS infrastructure + Bash scripting.

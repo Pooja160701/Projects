@@ -170,21 +170,3 @@ display(df_vis)
 Produces insights on total **Movies vs TV Shows** on Netflix.
 
 ---
-
-### 🧾 **Learning Outcomes**
-
-✅ Design and implement **end-to-end ETL pipelines** using Databricks & ADLS.
-✅ Understand the **Medallion Architecture (Bronze, Silver, Gold)** pattern.
-✅ Use **Auto Loader for streaming ingestion** and **DLT for validation**.
-✅ Leverage **PySpark transformations and window functions** for analytics.
-✅ Apply **data quality rules and governance** in DLT pipelines.
-
----
-
-### 👩‍💻 **Author**
-
-**Pooja**
-\
-*Data Engineer | Cloud & DevOps Enthusiast*
-\
-📍 Project: *Netflix Azure Data Engineering Pipeline using Auto Loader & Delta Live Tables*

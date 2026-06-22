@@ -10,17 +10,7 @@ The pipeline ingests raw data, transforms it into clean datasets, and models it 
 
 ## 🧱 Architecture
 
-```text
-Raw Data (CSV)
-     ↓
-Bronze Layer (Ingestion)
-     ↓
-Silver Layer (Cleaning & Transformation)
-     ↓
-Gold Layer (Business Modeling - Star Schema)
-     ↓
-Analytics / BI / Reporting
-```
+![alt text](images/arch.png)
 
 ---
 
